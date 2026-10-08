@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poznaję siebie w świecie zawodów</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Sora:wght@600;700&display=swap&subset=latin-ext" rel="stylesheet">
+<style>
+:root{--bg:#0b1226;--panel:#162040;--panel2:#1f2c55;--line:#2d3d73;--txt:#f1f5ff;--mut:#9fb0d9;--gold:#fbbf24;--blue:#38bdf8;--green:#22c55e;--red:#ef4444}
+*{box-sizing:border-box;margin:0}
+body{font-family:Manrope,"Segoe UI",system-ui,sans-serif;background:radial-gradient(circle at 20% -10%,#1c2a5e 0,var(--bg) 55%) fixed;color:var(--txt);min-height:100vh;font-weight:500}
+h1,h2,h3,.disp{font-family:Sora,Manrope,sans-serif;font-weight:700}
+button{font:inherit;font-weight:800;cursor:pointer;border:0;border-radius:12px;padding:10px 18px;color:#fff;transition:transform .12s,filter .12s}
+button:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.1)}
+button:disabled{opacity:.4;cursor:not-allowed}
+button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+input{font:inherit;font-weight:800;background:var(--bg);color:var(--gold);border:2px solid var(--line);border-radius:10px;padding:8px;text-align:center}
+header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px 24px;background:rgba(22,32,64,.9);border-bottom:2px solid var(--line);position:sticky;top:0;z-index:5;backdrop-filter:blur(8px)}
+header h1{font-size:1.4rem;letter-spacing:-.01em}
+.timer{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.timer input{width:62px;font-size:1.2rem}
+#clock{font-family:'Courier New',monospace;font-weight:700;font-size:2.2rem;color:var(--blue);min-width:150px;text-align:center}
+#clock.end{color:var(--red);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.45}}
+nav{display:flex;gap:8px;padding:16px 24px 0;flex-wrap:wrap}
+nav button{background:var(--panel2);font-size:1.05rem;padding:12px 24px;border-radius:14px 14px 0 0}
+nav button.on{background:#3b82f6}
+main{padding:24px;max-width:1400px;margin:auto}
+section{display:none}section.on{display:block}
+.bar{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:var(--panel);padding:14px 20px;border-radius:16px;margin-bottom:24px}
+.bar input{width:80px}
+.who{font-size:clamp(2rem,5vw,3.4rem);text-align:center;color:var(--blue);margin:20px 0}
+.cats{display:flex;flex-wrap:wrap;gap:16px;justify-content:center}
+.cat{min-width:190px;padding:22px 16px;font-size:1.15rem;border-radius:18px;line-height:1.4}
+.cat small{display:block;font-size:1.6rem;margin-top:4px}
+.cat:disabled{background:var(--panel2)!important}
+.hero{display:block;max-width:min(450px,90%);margin:32px auto;border-radius:18px}
+.done{text-align:center;font-size:2.4rem;color:var(--green);margin:60px 0}
+#cities.on{height:calc(100dvh - 190px);min-height:540px}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(0,1fr));gap:14px;height:100%}
+@media(max-width:800px){#cities.on{height:auto}.grid{grid-template-columns:1fr;grid-template-rows:none;height:auto}.city .top{min-height:150px}}
+.city{background:var(--panel);border:3px solid var(--c);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+.city{min-height:0}
+.city .top{flex:1;display:flex;min-height:0}
+.city .art{flex:0 0 52%;min-width:0}
+.city .art svg{display:block;width:100%;height:100%}
+.city .in{padding:12px 14px;flex:1;min-width:0;display:flex;flex-direction:column;justify-content:center}
+.city h3{font-size:1.1rem}
+.city p{color:var(--mut);margin:2px 0 8px;font-size:.92rem}
+.emo{font-size:3rem;text-align:center;letter-spacing:.5rem;margin:36px 0}
+.chips{display:flex;gap:5px;flex-wrap:wrap}
+.chip{padding:3px 9px;border-radius:99px;font-weight:800;font-size:.9rem}
+.fly{background:var(--green);border-radius:0;padding:9px;font-size:1rem}
+.split{display:flex;gap:40px;flex-wrap:wrap}
+.list{flex:1 1 420px}
+.row{display:flex;align-items:center;gap:16px;background:var(--panel);padding:10px 16px;border-radius:14px;margin-bottom:8px}
+.row b{width:90px}.row span{flex:1}.row input{width:110px}
+.empty{color:var(--mut);text-align:center;padding:50px}
+.side img{max-width:100%;width:480px;border-radius:18px}
+dialog{border:3px solid var(--line);border-radius:22px;background:var(--panel);color:var(--txt);padding:28px;width:min(560px,92vw);max-height:88vh;overflow:auto}
+dialog::backdrop{background:rgba(5,9,25,.8)}
+dialog h2{text-align:center;margin-bottom:16px}
+.job{background:var(--panel2);border-radius:14px;padding:10px;margin-bottom:10px}
+.job button{width:100%;background:#3b82f6;font-size:1.05rem}
+.job p{color:var(--mut);text-align:center;margin-top:6px}
+.big{font-family:Sora;font-size:5rem;color:var(--gold);text-align:center;font-weight:700;line-height:1.2}
+.rank{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:14px;background:var(--panel2);margin-bottom:6px}
+.rank.p0{background:linear-gradient(90deg,#78561a,var(--panel2))}
+.rank i{font-style:normal;font-family:Sora;font-size:1.4rem;width:44px}
+.rank span{flex:1;font-weight:800}.rank em{font-style:normal;color:var(--green);font-weight:800;font-size:1.2rem}
+.close{display:block;margin:18px auto 0;background:#3b82f6}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <h1>Poznaję siebie w świecie zawodów</h1>
+  <div class="timer">
+    <input id="min" type="number" value="45" min="1" aria-label="Minuty"> min
+    <button id="bStart" style="background:#22c55e">START</button>
+    <button id="bPause" style="background:#f59e0b" disabled>PAUZA</button>
+    <button id="bReset" style="background:#64748b">RESET</button>
+    <div id="clock">00:00:00</div>
+  </div>
+</header>
+<nav id="tabs">
+  <button class="on" data-t="draft">🧑‍🎓 1. Kreator rynku</button>
+  <button data-t="cities">✈️ 2. Biuro podróży</button>
+  <button data-t="results">🏆 3. Podium</button>
+</nav>
+<main>
+  <section id="draft" class="on">
+    <div class="bar">
+      <label for="n">Liczba uczniów (1–30):</label>
+      <input id="n" type="number" min="1" max="30">
+      <button id="bDraft" style="background:#3b82f6">Rozpocznij rekrutację</button>
+    </div>
+    <div id="draftBox"></div>
+  </section>
+  <section id="cities"><div class="grid" id="cityGrid"></div></section>
+  <section id="results">
+    <div class="bar">
+      <button id="bLoad" style="background:#64748b">🔄 Załaduj uczniów</button>
+      <button id="bWin" style="background:var(--gold);color:#111">🏆 Wyłoń zwycięzcę</button>
+    </div>
+    <div class="split">
+      <div class="list" id="resList"></div>
+      <div class="side"><svg viewBox="0 0 300 230" width="440" role="img" aria-label="Podium"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#d97706"/></linearGradient></defs><rect x="115" y="80" width="70" height="130" rx="6" fill="url(#g1)"/><rect x="40" y="115" width="70" height="95" rx="6" fill="#cbd5e1"/><rect x="190" y="140" width="70" height="70" rx="6" fill="#b45309"/><g font-family="Sora,sans-serif" font-weight="700" font-size="34" fill="#0b1226" text-anchor="middle"><text x="150" y="132">1</text><text x="75" y="162">2</text><text x="225" y="182">3</text></g><text x="150" y="68" font-size="46" text-anchor="middle">🏆</text><rect x="20" y="210" width="260" height="8" rx="4" fill="#2d3d73"/></svg></div>
+    </div>
+  </section>
+</main>
+<dialog id="dlg"></dialog>
+
+<script>
+const $=s=>document.querySelector(s);
+const BAZA={
+"🌿 Przyroda":{c:"#10b981",z:[["🌳 Ekolog","Bada wpływ działalności człowieka na środowisko"],["🏞️ Architekt krajobrazu","Projektuje zielone przestrzenie"],["🧪 Biotechnolog","Pracuje z organizmami żywymi"],["🌍 Specjalista ds. klimatu","Analizuje zmiany klimatu"],["💧 Hydrolog","Bada zasoby wodne"],["☀️ Inżynier energii OZE","Projektuje systemy OZE"]]},
+"⚙️ Technika":{c:"#ef4444",z:[["🤖 Inżynier robotyki","Projektuje i programuje roboty"],["🚗 Mechanik samochodowy","Naprawia i modernizuje pojazdy"],["🦾 Technik mechatronik","Łączy mechanikę z elektroniką"],["🖨️ Drukarz 3D","Tworzy obiekty w technologii 3D"],["🏠 Projektant budynków","Projektuje budynki autonomiczne"],["🚁 Operator dronów","Obsługuje drony w przemyśle"]]},
+"🫂 Człowiek":{c:"#eab308",z:[["📋 Doradca zawodowy","Pomaga odkrywać mocne strony"],["🧠 Psycholog","Wspiera w trudnych sytuacjach"],["💪 Trener personalny","Planuje ćwiczenia fizyczne"],["💼 Doradca biznesowy","Udziela porad biznesowych"],["🚑 Ratownik medyczny","Udziela pomocy w nagłych przypadkach"],["🎭 Animator kultury","Organizuje wydarzenia integracyjne"]]},
+"📊 Dane":{c:"#3b82f6",z:[["💻 Programista","Pisze kod i tworzy aplikacje"],["📈 Analityk danych","Wyciąga wnioski z danych"],["🔍 Tester oprogramowania","Sprawdza poprawność programów"],["🛡️ Specjalista cybersec","Chroni systemy przed hakerami"],["📱 Twórca aplikacji","Projektuje programy edukacyjne"],["🌐 Administrator sieci","Zarządza infrastrukturą sieciową"]]},
+"🎨 Artysta":{c:"#a16a45",z:[["🎨 Ilustrator/grafik","Tworzy grafiki i ilustracje"],["👗 Projektant mody","Projektuje kolekcje ubrań"],["🎬 Reżyser filmowy","Odpowiada za wizję artystyczną filmu"],["🏠 Architekt wnętrz","Projektuje funkcjonalne przestrzenie"],["🎵 Muzyk/dźwiękowiec","Tworzy ścieżki dźwiękowe"],["🎞️ Animator komputerowy","Ożywia postacie w grach i filmach"]]}
+};
+const KOL=["#10b981","#ef4444","#f59e0b","#3b82f6","#8d6e63"], IKO=["☀️","🖨️","🤝","💻","🎨"];
+const T=[null,"#3b82f6","#8b5cf6","#ec4899"];
+const MIASTA=[
+["Londyn","GB","londyn",1,[100,150,200,250],[1,1,1,0,1]],["Berlin","DE","berlin",1,[100,150,200,250],[0,1,1,1,0]],["Madryt","ES","madryt",1,[100,150,200,250],[1,0,0,1,4]],
+["Tokio","JP","tokio",2,[200,250,300,350],[3,1,1,1,0]],["Szanghaj","CN","szanghaj",2,[200,250,300,350],[2,1,0,2,2]],["Bangalore","IN","bangalore",2,[200,250,300,350],[2,2,1,0,3]],
+["Austin","US","austin",3,[350,400,450,500],[3,2,2,2,3]],["Toronto","CA","toronto",3,[350,400,450,500],[2,2,3,2,2]],["Nowy Jork","US","nowyjork",3,[350,400,450,500],[3,1,2,3,4]]];
+
+const rnd=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const dlg=$("#dlg");
+function modal(html){dlg.innerHTML=html;if(!dlg.open)dlg.showModal()}
+function closeModal(){dlg.close()}
+dlg.addEventListener("click",e=>{if(e.target===dlg&&dlg.dataset.lock!=="1")dlg.close()});
+
+/* ZAKŁADKI */
+$("#tabs").onclick=e=>{const t=e.target.dataset.t;if(!t)return;
+  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b===e.target));
+  document.querySelectorAll("section").forEach(s=>s.classList.toggle("on",s.id===t))};
+
+/* MINUTNIK */
+let left=0,tick=null,paused=false;
+const clock=$("#clock");
+function show(){const h=Math.floor(left/3600),m=Math.floor(left%3600/60),s=left%60;clock.textContent=[h,m,s].map(x=>String(x).padStart(2,"0")).join(":")}
+$("#bStart").onclick=()=>{const m=parseInt($("#min").value);if(!m||m<1)return;
+  left=m*60;paused=false;clock.className="";show();
+  $("#bStart").disabled=$("#min").disabled=true;$("#bPause").disabled=false;
+  clearInterval(tick);tick=setInterval(()=>{if(paused)return;left--;show();if(left<=0){clearInterval(tick);clock.textContent="KONIEC!";clock.className="end";$("#bPause").disabled=true;
+    modal('<h2>⏰ Koniec handlu</h2><p style="text-align:center">Czas dobiegł końca! Giełda została zamknięta. Podliczcie zyski i przejdźcie do zakładki Podium.</p><button class="close" onclick="closeModal()">OK</button>')}},1000)};
+$("#bPause").onclick=()=>{paused=!paused;const b=$("#bPause");b.textContent=paused?"WZNÓW":"PAUZA";b.style.background=paused?"#22c55e":"#f59e0b"};
+$("#bReset").onclick=()=>{clearInterval(tick);paused=false;clock.textContent="00:00:00";clock.className="";
+  $("#bStart").disabled=$("#min").disabled=false;const b=$("#bPause");b.disabled=true;b.textContent="PAUZA";b.style.background="#f59e0b"};
+
+/* REKRUTACJA */
+let res=[],limits,students,cur,avail;
+$("#bDraft").onclick=()=>{const n=parseInt($("#n").value);
+  if(!n||n<1||n>30){alert("Wpisz liczbę uczniów od 1 do 30 (każda kategoria ma 6 zawodów).");return}
+  res=[];const keys=Object.keys(BAZA),base=Math.floor(n/5),extra=shuffle([...keys]).slice(0,n%5);
+  limits={};keys.forEach(k=>limits[k]=base+(extra.includes(k)?1:0));
+  students=shuffle(Array.from({length:n},(_,i)=>"Uczeń "+(i+1)));cur=0;
+  avail={};keys.forEach(k=>avail[k]=[...BAZA[k].z]);step()};
+function step(){const box=$("#draftBox");
+  if(cur<students.length){
+    box.innerHTML=`<div class="who disp">Wybiera: ${students[cur]}</div><div class="cats">`+
+    Object.keys(BAZA).map(g=>`<button class="cat disp" style="background:${BAZA[g].c};color:${BAZA[g].c==="#eab308"?"#1c1917":"#fff"}" ${limits[g]>0?"":"disabled"} data-g="${g}">${g}<small>${limits[g]}</small></button>`).join("")+
+    `</div><div class="emo" aria-hidden="true">🌿⚙️🫂📊🎨</div>`;
+    box.querySelectorAll(".cat").forEach(b=>b.onclick=()=>pick(b.dataset.g));
+  }else{box.innerHTML='<div class="done disp">🎉 Rekrutacja zakończona</div>';loadResults()}}
+function pick(g){
+  modal(`<h2>${g}</h2>`+avail[g].map((j,i)=>`<div class="job"><button data-i="${i}">${j[0]}</button><p>${j[1]}</p></div>`).join(""));
+  dlg.querySelectorAll(".job button").forEach(b=>b.onclick=()=>{const j=avail[g].splice(+b.dataset.i,1)[0];
+    res.push([students[cur],j[0],g]);limits[g]--;cur++;closeModal();step()})}
+
+/* MIASTA */
+const SKY={1:["#1e3a8a","#7dd3fc"],2:["#5b21b6","#f5d0fe"],3:["#9d174d","#fdba74"]};
+const LM={
+londyn:'<rect x="96" y="48" width="28" height="82" fill="#e2e8f0"/><polygon points="92,48 128,48 110,16" fill="#94a3b8"/><circle cx="110" cy="66" r="9" fill="#fff" stroke="#334155" stroke-width="2"/><path d="M110 66v-6M110 66l5 3" stroke="#334155" stroke-width="2"/><circle cx="178" cy="88" r="34" fill="none" stroke="#e2e8f0" stroke-width="3"/><path d="M178 54v68M144 88h68M154 64l48 48M202 64l-48 48" stroke="#e2e8f0" stroke-width="1.5"/>',
+berlin:'<g fill="#e2e8f0"><rect x="118" y="40" width="5" height="90"/><rect x="119.500" y="14" width="2" height="30"/><rect x="30" y="86" width="60" height="8"/><rect x="40" y="78" width="40" height="8"/><rect x="34" y="94" width="7" height="36"/><rect x="48" y="94" width="7" height="36"/><rect x="63" y="94" width="7" height="36"/><rect x="77" y="94" width="7" height="36"/></g><circle cx="120.500" cy="72" r="15" fill="#cbd5e1"/>',
+madryt:'<g fill="#fde68a"><rect x="70" y="60" width="100" height="70"/><rect x="62" y="52" width="116" height="10"/><rect x="100" y="38" width="40" height="14"/></g><path d="M105 130V96a15 15 0 0 1 30 0v34zM76 130V104a8 8 0 0 1 16 0v26zM148 130V104a8 8 0 0 1 16 0v26z" fill="#7c2d12"/>',
+tokio:'<polygon points="15,130 70,62 125,130" fill="#c4b5fd"/><polygon points="70,62 58,78 82,78" fill="#fff"/><polygon points="170,26 150,130 190,130" fill="#ef4444"/><path d="M160 90h20M164 70h12M156 110h28" stroke="#fff" stroke-width="3"/><rect x="169" y="12" width="2" height="16" fill="#ef4444"/>',
+szanghaj:'<path d="M104 130L116 100M136 130L124 100" stroke="#f8fafc" stroke-width="4"/><rect x="116" y="58" width="8" height="72" fill="#f8fafc"/><circle cx="120" cy="100" r="16" fill="#f472b6"/><circle cx="120" cy="58" r="10" fill="#f472b6"/><circle cx="120" cy="124" r="6" fill="#f8fafc"/><rect x="119" y="20" width="2" height="30" fill="#f8fafc"/><g fill="#e2e8f0"><rect x="165" y="60" width="22" height="70"/><rect x="50" y="78" width="26" height="52"/></g>',
+bangalore:'<g fill="#fcd34d"><rect x="40" y="88" width="160" height="42"/><rect x="92" y="64" width="56" height="26"/><rect x="104" y="46" width="32" height="20"/></g><path d="M104 46a16 16 0 0 1 32 0z" fill="#f59e0b"/><rect x="119" y="22" width="2" height="12" fill="#f59e0b"/><g fill="#b45309"><rect x="96" y="92" width="5" height="38"/><rect x="108" y="92" width="5" height="38"/><rect x="127" y="92" width="5" height="38"/><rect x="139" y="92" width="5" height="38"/></g>',
+austin:'<g fill="#fda4af"><rect x="50" y="92" width="140" height="38"/><rect x="90" y="70" width="60" height="22"/><rect x="105" y="54" width="30" height="16"/></g><path d="M105 54a15 15 0 0 1 30 0z" fill="#fecdd3"/><rect x="118" y="26" width="4" height="12" fill="#fecdd3"/><circle cx="120" cy="22" r="5" fill="#fde047"/>',
+toronto:'<path d="M30 130a40 40 0 0 1 64 0z" fill="#cbd5e1"/><path d="M148 130L155 80M170 130L163 80" stroke="#e2e8f0" stroke-width="3"/><rect x="155" y="50" width="8" height="80" fill="#e2e8f0"/><ellipse cx="159" cy="62" rx="15" ry="6" fill="#f1f5f9"/><rect x="158" y="8" width="2" height="48" fill="#e2e8f0"/>',
+nowyjork:'<g fill="#94a3b8"><rect x="30" y="80" width="26" height="50"/><rect x="60" y="64" width="30" height="66"/><rect x="150" y="76" width="28" height="54"/><rect x="182" y="92" width="30" height="38"/></g><g fill="#e2e8f0"><rect x="100" y="70" width="40" height="60"/><rect x="108" y="48" width="24" height="24"/><rect x="114" y="32" width="12" height="18"/><rect x="119" y="10" width="2" height="24"/></g>'};
+function art(id,tier){const[a,b]=SKY[tier];
+  return `<svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMax slice" role="img" aria-label="${id}"><defs><linearGradient id="s${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="240" height="150" fill="url(#s${id})"/><circle cx="205" cy="34" r="14" fill="#fff" opacity=".8"/><g fill="#0f172a" opacity=".3"><rect x="0" y="96" width="22" height="40"/><rect x="26" y="82" width="26" height="54"/><rect x="190" y="86" width="24" height="50"/><rect x="216" y="100" width="24" height="36"/></g>${LM[id]}<rect y="130" width="240" height="20" fill="#0f172a" opacity=".75"/></svg>`}
+
+$("#cityGrid").innerHTML=MIASTA.map((m,i)=>`<article class="city" style="--c:${T[m[3]]}"><div class="top"><div class="art">${art(m[2],m[3])}</div><div class="in">
+  <h3>${m[1]} ${m[0].toUpperCase()}</h3><p>Przychód: ${Math.min(...m[4])}–${Math.max(...m[4])} €</p>
+  <div class="chips">${m[5].map((v,k)=>v>0?`<span class="chip" style="background:${KOL[k]}">${v}${IKO[k]}</span>`:"").join("")}</div></div></div>
+  <button class="fly" data-i="${i}">LEĆ ✈️</button></article>`).join("");
+$("#cityGrid").onclick=e=>{const i=e.target.dataset.i;if(i==null)return;const m=MIASTA[i];
+  modal(`<h2>Cel: ${m[0]}</h2><div class="big">${rnd(m[4])} €</div><button class="close" onclick="closeModal()">Zatwierdź</button>`)};
+
+/* PODIUM */
+function loadResults(){const L=$("#resList");
+  if(!res.length){L.innerHTML='<div class="empty">Najpierw przeprowadź rekrutację!</div>';return}
+  const num=s=>parseInt(s.split(" ")[1]);
+  L.innerHTML=[...res].sort((a,b)=>num(a[0])-num(b[0])).map(r=>`<div class="row"><b>${r[0]}</b><span style="color:${BAZA[r[2]].c}">${r[1]}</span><input type="number" value="0" data-n="${r[0]}" aria-label="Kwota ${r[0]}"></div>`).join("")}
+$("#bLoad").onclick=loadResults;loadResults();
+$("#bWin").onclick=()=>{const rows=[...document.querySelectorAll("#resList input")];
+  if(!rows.length){alert("Najpierw przeprowadź rekrutację!");return}
+  const sc=rows.map(i=>[i.dataset.n,parseInt(i.value)]);
+  if(sc.some(s=>isNaN(s[1]))){alert("Wpisz poprawne kwoty (liczby)!");return}
+  sc.sort((a,b)=>b[1]-a[1]);const med=["🥇","🥈","🥉"];
+  modal(`<h2>🏆 Ranking finansowy</h2>`+sc.map((s,i)=>`<div class="rank ${i==0?"p0":""}"><i>${med[i]||i+1+"."}</i><span>${s[0]}</span><em>${s[1]} €</em></div>`).join("")+`<button class="close" onclick="closeModal()">Zamknij</button>`)};
+</script>
+</body>
+</html>
